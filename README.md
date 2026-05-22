@@ -1,105 +1,159 @@
 # AWS Certified Solutions Architect — SAA-C03
 
-![AWS](https://img.shields.io/badge/AWS-Certified-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
-![Solutions Architect](https://img.shields.io/badge/Solutions_Architect-Associate-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-Certified-FF9900?style=for-the-badge&logo=amazonwebservices&logoColor=white)
+![Solutions Architect](https://img.shields.io/badge/Solutions-Architect-232F3E?style=for-the-badge&logo=amazonwebservices&logoColor=white)
 ![Idioma](https://img.shields.io/badge/Idioma-Español-blue?style=for-the-badge)
 ![Estado](https://img.shields.io/badge/Estado-Activo-brightgreen?style=for-the-badge)
 
-> Material de preparación completo para el examen **AWS Certified Solutions Architect Associate (SAA-C03)** en español.  
+> Material de preparación para el examen **AWS Certified Solutions Architect – Associate (SAA-C03)** en español.
 > Elaborado por **Rodrigo Aguilar** — Cloud Architect & AWS Authorized Instructor LATAM.
 
 ---
 
-## Contenido del Repositorio
+## 📋 Contenido del Repositorio
 
 ```
 aws-saa-c03-prep/
-├── README.md                          ← Este archivo
-├── guia-teorica/
-│   └── sustento-teorico-completo.md  ← Marco teórico completo SAA-C03
-└── practica/
-    └── preguntas-practica.md         ← Set de preguntas de práctica
+├── README.md                              ← Este archivo
+└── preguntas-practica/
+    └── banco-preguntas.md                ← Banco de preguntas con respuestas y justificaciones
 ```
 
 ---
 
-## Dominios del Examen SAA-C03
+## 📚 Banco de Preguntas
 
-Según la guía oficial de AWS, el examen cubre:
+El archivo [`preguntas-practica/banco-preguntas.md`](./preguntas-practica/banco-preguntas.md) contiene preguntas reales de práctica del examen SAA-C03, con:
 
-| Dominio | Descripción | Peso aproximado |
-|---------|-------------|----------------|
-| 1 | Diseño de Arquitecturas Seguras | 30% |
-| 2 | Diseño de Arquitecturas Resilientes | 26% |
-| 3 | Diseño de Arquitecturas de Alto Rendimiento | 24% |
-| 4 | Diseño de Arquitecturas Optimizadas en Costo | 20% |
-
----
-
-## Servicios AWS Clave — Referencia Rápida
-
-| Necesidad | Servicio Correcto |
-|-----------|------------------|
-| Balanceo de carga HTTP/HTTPS | Application Load Balancer (ALB) |
-| Balanceo de carga TCP/UDP | Network Load Balancer (NLB) |
-| Distribución de contenido global | Amazon CloudFront |
-| DNS y enrutamiento de tráfico | Amazon Route 53 |
-| Red privada virtual | Amazon VPC |
-| Almacenamiento de objetos | Amazon S3 |
-| Almacenamiento de bloques | Amazon EBS |
-| Almacenamiento de archivos compartido | Amazon EFS |
-| Base de datos relacional gestionada | Amazon RDS |
-| Base de datos NoSQL | Amazon DynamoDB |
-| Caché en memoria | Amazon ElastiCache |
-| Cola de mensajes | Amazon SQS |
-| Mensajería pub/sub | Amazon SNS |
-| Procesamiento de eventos sin servidor | AWS Lambda |
-| Contenedores gestionados | Amazon ECS / EKS |
-| Escalado automático | Auto Scaling Groups |
-| Identidad y acceso | AWS IAM |
-| Cifrado de datos | AWS KMS |
-| Monitoreo y métricas | Amazon CloudWatch |
-| Auditoría de API calls | AWS CloudTrail |
-| Infraestructura como código | AWS CloudFormation |
-| Migración de datos | AWS DMS / Snowball |
-| Conectividad híbrida | AWS Direct Connect / VPN |
-| Data warehouse | Amazon Redshift |
-| Búsqueda | Amazon OpenSearch |
+- Enunciado completo de la pregunta
+- Opciones de respuesta (A, B, C, D)
+- **Respuesta correcta** con justificación técnica detallada
+- Análisis de por qué las demás opciones son incorrectas
+- Clave conceptual para el examen
 
 ---
 
-## Patrones de Arquitectura — Identificación Rápida
+## 🗺️ Dominios del Examen SAA-C03
 
-| Señal en el enunciado | Solución |
-|----------------------|---------|
-| "Alta disponibilidad en múltiples zonas" | Multi-AZ + ALB + Auto Scaling |
-| "Recuperación ante desastres mínima" | Pilot Light o Warm Standby |
-| "Contenido estático a usuarios globales" | S3 + CloudFront |
-| "Desacoplamiento de microservicios" | SQS o SNS |
-| "Procesamiento sin servidor" | Lambda + API Gateway |
-| "Base de datos escalable globalmente" | DynamoDB Global Tables |
-| "Datos relacionales con failover automático" | RDS Multi-AZ |
-| "Reducir latencia de base de datos" | ElastiCache (Redis/Memcached) |
-| "Acceso privado a S3 desde VPC" | VPC Gateway Endpoint |
-| "Conectar on-premise con AWS" | Direct Connect o Site-to-Site VPN |
-| "Transferencia masiva de datos" | AWS Snowball / Snowmobile |
-| "Análisis de logs en tiempo real" | Kinesis Data Streams |
-| "Menor costo para cargas intermitentes" | EC2 Spot Instances |
-| "Menor costo para cargas predecibles" | EC2 Reserved Instances |
+| Dominio | Descripción | Peso |
+|---------|-------------|------|
+| 1 | Diseño de Arquitecturas Seguras | ~30% |
+| 2 | Diseño de Arquitecturas Resilientes | ~26% |
+| 3 | Diseño de Arquitecturas de Alto Rendimiento | ~24% |
+| 4 | Diseño de Arquitecturas Rentables | ~20% |
 
 ---
 
-## Como usar este repositorio
+## 🔑 Patrones de Respuesta Frecuentes
 
-1. **Lectura teórica**: Comienza con `guia-teorica/sustento-teorico-completo.md`
-2. **Práctica**: Usa `practica/preguntas-practica.md` para evaluar tu comprensión
-3. **Repaso rápido**: Usa las tablas de este README como cheatsheet antes del examen
+### Almacenamiento
+| Escenario | Servicio Correcto |
+|-----------|-------------------|
+| Archivos compartidos entre EC2 Windows | Amazon FSx for Windows File Server |
+| Archivos compartidos entre EC2 Linux | Amazon EFS |
+| Alta performance / HPC / gaming | Amazon FSx for Lustre |
+| Backup centralizado multi-servicio | AWS Backup |
+| Datos NFS on-premises → AWS | S3 File Gateway |
+| Block storage on-premises → AWS | Volume Gateway |
+| Datos fríos, acceso inmediato | S3 Glacier Instant Retrieval |
+| Datos con acceso impredecible | S3 Intelligent-Tiering |
+| Copia secundaria, acceso infrecuente | S3 Standard-IA |
+
+### Base de Datos
+| Escenario | Servicio Correcto |
+|-----------|-------------------|
+| Migración heterogénea con CDC | AWS SCT + AWS DMS |
+| Poblar entorno staging sin impacto | Aurora Fast Clone |
+| Connection pooling para RDS | Amazon RDS Proxy |
+| Datos de series de tiempo / IoT | Amazon Timestream |
+| Session state de aplicaciones web | ElastiCache Redis |
+| Retención backups > 35 días | AWS Backup |
+| Compartir snapshot cifrado entre cuentas | Copia snapshot + CMK key policy |
+| Dev/Test intermitente (PostgreSQL) | Aurora Serverless v2 |
+
+### Red y Conectividad
+| Escenario | Servicio Correcto |
+|-----------|-------------------|
+| EC2 privado → S3 sin internet | VPC Gateway Endpoint |
+| EC2 privado → internet saliente | NAT Gateway (en subnet pública) |
+| On-premises → AWS temporal/barato | Site-to-Site VPN |
+| Usuario remoto → VPC | AWS Client VPN |
+| Multi-cuenta, restricciones centralizadas | SCP en AWS Organizations |
+| DR multiregional Active-Passive | Route 53 Failover Routing Policy |
+
+### Compute y Escalado
+| Escenario | Servicio Correcto |
+|-----------|-------------------|
+| Carga predecible y recurrente | ASG Scheduled Action |
+| Carga impredecible | ASG Dynamic Scaling |
+| EC2 + Fargate en Savings Plan | Compute Savings Plan (no EC2 Instance SP) |
+| EKS sin gestionar nodos | AWS Fargate para EKS |
+| Separar hardware entre instancias | Spread Placement Group |
+| Procesamiento máximo throughput entre nodos | Cluster Placement Group |
+
+### Seguridad e IAM
+| Escenario | Servicio Correcto |
+|-----------|-------------------|
+| EC2 accede a servicios AWS | IAM Role + Instance Profile |
+| ECS task accede a servicios AWS | IAM Task Role |
+| Credenciales BD con rotación automática | AWS Secrets Manager |
+| Forzar HTTPS en S3 | Bucket policy aws:SecureTransport |
+| Cifrado en reposo S3 con control de claves | SSE-KMS (CMK) |
+| Auditar permisos IAM multi-cuenta | IAM Access Analyzer |
+| Detectar cambios en recursos | AWS Config |
+| Notificar eventos de API | CloudTrail → EventBridge → SNS |
+
+### Messaging y Streaming
+| Escenario | Servicio Correcto |
+|-----------|-------------------|
+| Orden garantizado de mensajes | SQS FIFO |
+| Múltiples consumidores Kinesis sin compartir throughput | Enhanced Fan-Out |
+| Cola SQS acumulada → escalar consumidores | ASG basado en ApproximateNumberOfMessagesVisible |
+| Procesamiento duplicado en SQS | Aumentar visibility timeout (ChangeMessageVisibility) |
+| RabbitMQ/ActiveMQ administrado | Amazon MQ |
 
 ---
 
-## Licencia
+## 🎯 Claves Conceptuales para el Examen
 
-Material elaborado para uso educativo. Basado en la guía oficial del examen AWS Certified Solutions Architect Associate (SAA-C03).
+### Los "siempre" del SAA-C03
+
+- **Siempre** que EC2 necesite acceder a servicios AWS → IAM Role + Instance Profile, nunca access keys
+- **Siempre** que ECS task necesite acceder a servicios AWS → Task IAM Role, nunca instance profile
+- **Siempre** que EC2 privado acceda a S3/DynamoDB → VPC Gateway Endpoint, no NAT Gateway
+- **Siempre** que haya migración heterogénea de BD con CDC → AWS SCT + AWS DMS
+- **Siempre** que el escenario diga "mínimo overhead" + backup multi-servicio → AWS Backup
+- **Siempre** que haya rotación automática de credenciales BD → AWS Secrets Manager (no SSM Parameter Store)
+- **Siempre** que se mencione RabbitMQ/ActiveMQ → Amazon MQ
+- **Siempre** que aplicación en EKS deba enrutar por path → AWS Load Balancer Controller + ALB
+
+### Diferencias clave que el examen pone a prueba
+
+| Par confuso | Diferencia |
+|-------------|------------|
+| ALB vs NLB | ALB = HTTP/HTTPS capa 7; NLB = TCP/UDP capa 4 (VoIP, gaming) |
+| SQS FIFO vs Standard | FIFO = orden garantizado; Standard = mayor throughput sin orden |
+| Secrets Manager vs SSM Parameter Store | Secrets Manager tiene rotación nativa para RDS |
+| One Zone-IA vs Standard-IA | One Zone = 1 AZ (datos reproducibles); Standard = multi-AZ |
+| Glacier Instant vs Flexible | Instant = milisegundos; Flexible = minutos a horas |
+| Cognito User Pool vs Identity Pool | User Pool = autenticación; Identity Pool = credenciales AWS |
+| EC2 Instance SP vs Compute SP | Compute SP cubre EC2 + Fargate + Lambda |
+| Client VPN vs Site-to-Site VPN | Client = usuario→VPC; Site-to-Site = red→red |
+| gp2 vs gp3 | gp3 = IOPS independiente del tamaño, más barato |
+
+---
+
+## 🚀 Cómo usar este repositorio
+
+1. **Practica de preguntas**: Revisa `preguntas-practica/banco-preguntas.md` e intenta responder antes de leer la justificación
+2. **Repaso rápido**: Usa las tablas de referencia de este README como cheatsheet
+3. **Patrones débiles**: Identifica los dominios donde tienes dudas y repasa los patrones correspondientes
+
+---
+
+## 📄 Licencia
+
+Material elaborado para uso educativo. Basado en la guía oficial del examen AWS Certified Solutions Architect – Associate (SAA-C03).
 
 > **Nota:** Este repositorio es material de estudio independiente, no afiliado ni endorsado por Amazon Web Services. AWS y los nombres de certificaciones son marcas registradas de Amazon.com, Inc.
 

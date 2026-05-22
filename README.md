@@ -15,7 +15,8 @@
 ```
 aws-saa-c03-prep/
 ├── README.md                              ← Este archivo
-└── preguntas-practica/
+├── guia-teorica/                          ← Marco teórico completo SAA-C03
+└── practica/
     └── banco-preguntas.md                ← Banco de preguntas con respuestas y justificaciones
 ```
 
@@ -23,7 +24,7 @@ aws-saa-c03-prep/
 
 ## 📚 Banco de Preguntas
 
-El archivo [`preguntas-practica/banco-preguntas.md`](./preguntas-practica/banco-preguntas.md) contiene preguntas reales de práctica del examen SAA-C03, con:
+El archivo [`practica/banco-preguntas.md`](./practica/banco-preguntas.md) contiene preguntas reales de práctica del examen SAA-C03, con:
 
 - Enunciado completo de la pregunta
 - Opciones de respuesta (A, B, C, D)
@@ -145,7 +146,7 @@ El archivo [`preguntas-practica/banco-preguntas.md`](./preguntas-practica/banco-
 
 ## 🚀 Cómo usar este repositorio
 
-1. **Practica de preguntas**: Revisa `preguntas-practica/banco-preguntas.md` e intenta responder antes de leer la justificación
+1. **Practica de preguntas**: Revisa `practica/banco-preguntas.md` e intenta responder antes de leer la justificación
 2. **Repaso rápido**: Usa las tablas de referencia de este README como cheatsheet
 3. **Patrones débiles**: Identifica los dominios donde tienes dudas y repasa los patrones correspondientes
 

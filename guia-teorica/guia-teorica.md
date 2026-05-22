@@ -52,7 +52,7 @@
 - El equipo de compliance administra las políticas de claves de KMS.
 
 **Forzar HTTPS en S3**
-- Usar condición `aws:SecureTransport: false` → Deny en la bucket policy.
+- Usar condición `"aws:SecureTransport": "false"` con efecto Deny en la bucket policy (bloquea peticiones HTTP).
 - S3 ya usa HTTPS nativo; ACM **no** se asocia directamente a buckets S3 (sí a ALB, CloudFront, API Gateway).
 
 **AWS Secrets Manager**
@@ -68,8 +68,8 @@
 
 **Cifrado RDS completo**
 - En reposo: KMS managed keys (se habilita al crear la instancia, no modificable después).
-- En tránsito: SSL/TLS nativo de RDS.
-- ACM gestiona certificados para conexiones EC2 → RDS vía SSL/TLS.
+- En tránsito: SSL/TLS nativo de RDS con certificados gestionados por AWS (descargados desde el repositorio de AWS, no desde ACM).
+- ACM gestiona certificados para ALB, CloudFront y API Gateway — **no** para conexiones directas EC2 → RDS.
 - VPN es para conectividad entre redes, no para cifrar tráfico dentro de una VPC.
 
 ### 1.3 Seguridad en S3 `[D1]` ★★★
@@ -270,8 +270,10 @@ EC2 → NAT GW (AZ-b) → IGW → Internet
 |-----------------|-------------|
 | **Scheduled Action** | Carga predecible y recurrente (ej. viernes por la noche) |
 | **Target Tracking** | Mantener una métrica en un valor objetivo (ej. CPU al 60%) |
-| **Step Scaling** | Escalar en pasos según rangos de métricas |
-| **Dynamic / Simple** | Respuesta a alarma de CloudWatch |
+| **Step Scaling** | Escalar en pasos según rangos de métricas (subtipo de Dynamic Scaling) |
+| **Simple Scaling** | Un solo ajuste por alarma de CloudWatch; espera cooldown antes del siguiente (subtipo de Dynamic Scaling) |
+
+> Step Scaling y Simple Scaling son subtipos de Dynamic Scaling. Target Tracking es el más recomendado por AWS para la mayoría de casos.
 
 - Scheduled Action: configuración con expresión cron, cero intervención manual posterior.
 - Métrica para escalar consumidores SQS → `ApproximateNumberOfMessagesVisible`.
@@ -322,7 +324,7 @@ EC2 → NAT GW (AZ-b) → IGW → Internet
 
 | Tipo | Característica | Límite | Uso |
 |------|----------------|--------|-----|
-| **Cluster** | Mismo rack → baja latencia de red | Sin límite | HPC, procesamiento paralelo |
+| **Cluster** | Mismo rack, misma AZ → baja latencia de red | Sin límite de instancias, solo 1 AZ | HPC, procesamiento paralelo |
 | **Spread** | Racks distintos → máximo aislamiento | 7 instancias/AZ | Aplicaciones críticas |
 | **Partition** | Grupos en particiones separadas | 7 particiones/AZ | Hadoop, Kafka, Cassandra |
 
@@ -588,8 +590,8 @@ EC2 privada → NAT GW (subnet pública) → IGW → Internet
 | **Snowball Edge Compute** | 80 TB + 52 vCPUs | Edge computing con procesamiento |
 | **Snowmobile** | 100 PB | Migración de exabytes |
 
-- **Usar cuando:** ancho de banda limitado o el tiempo de transferencia por red > 1 semana.
-- **No usar cuando:** ya existe VPN/Direct Connect (usar DataSync o DMS según el caso).
+- **Usar cuando:** el tiempo estimado de transferencia por red supera 1 semana, independientemente de si existe VPN o Direct Connect.
+- **Preferir DataSync/DMS cuando:** el volumen de datos es manejable por red en un tiempo razonable (días).
 - Snowball **no captura CDC** — no es válido para migraciones con cambios continuos.
 
 ### AWS Migration Hub ★★
@@ -696,7 +698,7 @@ AWS Backup con vault en región secundaria
 | Usar Snowball cuando ya existe VPN/Direct Connect | Snowball es para transferencias offline sin red | AWS DataSync o DMS |
 | Usar mysqldump para migrar BD con cambios continuos | mysqldump es lento y no captura CDC | AWS DMS con full load + CDC |
 | Usar EC2 Instance Savings Plan cuando hay Fargate | EC2 Instance SP no cubre Fargate | Compute Savings Plan |
-| Usar ACM para cifrar el tráfico hacia un bucket S3 | ACM se asocia a ALB/CloudFront, no a S3 directamente | `aws:SecureTransport` en bucket policy |
+| Usar ACM para cifrar el tráfico hacia un bucket S3 | ACM se asocia a ALB/CloudFront/API Gateway, no a S3; RDS usa certificados propios de AWS | `aws:SecureTransport` en bucket policy (para HTTPS); certificados AWS para RDS TLS |
 | Usar Internet Gateway en subnet privada para salida | IGW requiere IP pública; viola seguridad | NAT Gateway en subnet pública |
 | Usar CloudFormation drift detection para monitoreo continuo | Drift detection es bajo demanda, no continuo | AWS Config |
 | Usar instance profile para dar permisos a un task ECS | Instance profile afecta a todos los contenedores del host | Task IAM Role en la task definition |
@@ -772,7 +774,8 @@ AWS Backup con vault en región secundaria
 | DynamoDB — tamaño máximo de ítem | 400 KB |
 | DynamoDB — partición: RCU máx | 3.000 RCU |
 | DynamoDB — partición: WCU máx | 1.000 WCU |
-| ElastiCache Redis — max nodos por cluster | 6 (1 primario + 5 réplicas) |
+| ElastiCache Redis — max nodos por shard (cluster mode disabled) | 6 (1 primario + 5 réplicas) |
+| ElastiCache Redis — max shards (cluster mode enabled) | 500 shards por cluster |
 | RDS snapshots automáticos — retención máxima | 35 días |
 
 ### Red
@@ -780,7 +783,7 @@ AWS Backup con vault en región secundaria
 | Recurso | Límite |
 |---------|--------|
 | VPC — máximo de subnets | 200 por VPC |
-| VPC — máximo de security groups por instancia | 5 |
+| VPC — máximo de security groups por ENI (interfaz de red) | 5 (ajustable hasta 16 con soporte de AWS) |
 | Security Group — reglas de entrada máx | 60 por SG |
 | Transit Gateway — VPCs adjuntas | 5.000 |
 | Direct Connect — velocidades disponibles | 1, 10, 100 Gbps (hosted: desde 50 Mbps) |
